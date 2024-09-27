@@ -1,0 +1,51 @@
+telegram-webapp-bot/
+├── public/
+│   └── index.html
+├── bot.js
+├── package.json
+└── Procfile
+const { Telegraf } = require('telegraf');
+const express = require('express');
+const app = express();
+
+const bot = new Telegraf('YOUR_BOT_API_TOKEN');
+
+bot.start((ctx) => ctx.reply('Welcome!'));
+bot.help((ctx) => ctx.reply('Send me a message and I will echo it back!'));
+bot.on('text', (ctx) => ctx.reply(ctx.message.text));
+
+bot.launch();
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
+app.listen(3000, () => {
+  console.log('Web app is running on http://localhost:3000');
+});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Bot Web App</title>
+</head>
+<body>
+  <h1>Welcome to the Telegram Bot Web App</h1>
+  <p>Interact with the bot via Telegram!</p>
+</body>
+</html>
+{
+  "name": "telegram-webapp-bot",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "telegraf": "^4.4.0"
+  }
+}
+web: node bot.js
+npm install
+npm start
